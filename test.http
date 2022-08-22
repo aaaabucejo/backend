@@ -1,0 +1,10 @@
+POST http://localhost:4000/app/signup
+Content-Type: application/json
+
+{
+    "firstName":"Francis",
+    "lastName":"Abucejo",
+    "contactNo":"09 999 9999",
+    "siteT":"Far Eastern University",
+    "status":"Alive"
+}

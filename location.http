@@ -1,0 +1,14 @@
+POST http://localhost:4000/app/signinlocation
+Content-Type: application/json
+
+{
+    "address":"3500 V. Mapa",
+    "capacity":"932",
+    "room":"100",
+    "restroom":"10",
+    "kitchen":"2",
+    "evehicle":"2",
+    "firstaid":"ready",
+    "official":"ready",
+    "description":"blablabla",
+}
