@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const dotenv= require('dotenv')
 const routerUrls = require('./routes/routes')
 const cors = require('cors')
+const port = process.env.PORT || 4000;
+
 
 dotenv.config()
 
@@ -15,4 +17,4 @@ app.get("/",(req,res) => {
 app.use(express.json())
 app.use(cors())
 app.use('/app', routerUrls)
-app.listen(4000, () => console.log("server is up and running"))
+app.listen(port, () => console.log("server is up and running"))
