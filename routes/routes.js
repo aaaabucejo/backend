@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const signUpTemplateCopy = require('../models/models')
 const signUpLocation = require('../models/locationmodels')
+const officialsTemplate = require('../models/officialmodels')
 const { request } = require('express')
 const { updateOne } = require('../models/models')
 
@@ -33,12 +34,30 @@ router.post('/signuplocation', async(request,response)=>{
         room:request.body.room,
         restroom:request.body.restroom,
         kitchen:request.body.kitchen,
-        evehicle:request.body.evehicle,
         firstaid:request.body.firstaid,
-        official:request.body.official,
         description:request.body.description
     })
     signUpLoc.save()
+    .then(data =>{
+        response.json(data)
+    })
+    .catch(error =>{
+        response.json(error)
+            
+    })
+})
+
+//sign up ng officials data
+router.post('/signupofficials', async(request,response)=>{
+    const signUpOff = new officialsTemplate({
+        firstName:request.body.firstName,
+        lastName:request.body.lastName,
+        address:request.body.address,
+        email:request.body.email,
+        contact:request.body.contact,
+        age:request.body.age
+    })
+    signUpOff.save()
     .then(data =>{
         response.json(data)
     })
@@ -134,7 +153,7 @@ router.post('/updateUsers', (request, response) => {
         lastName:request.body.lastName,
         contactNo:request.body.contactNo,
         siteT:request.body.siteT,
-        status:request.body.status
+        age:request.body.age
     }, function(err){
 
         if(err){
@@ -153,9 +172,7 @@ router.post('/updateLocation', (request, response) => {
         room:request.body.room,
         restroom:request.body.restroom,
         kitchen:request.body.kitchen,
-        evehicle:request.body.evehicle,
         firstaid:request.body.firstaid,
-        official:request.body.official,
         description:request.body.description
     }, function(err){
 

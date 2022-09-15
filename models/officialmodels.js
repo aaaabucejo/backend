@@ -1,34 +1,31 @@
+//firstname, lastname,address,email,contact,age
 const mongoose = require('mongoose')
 
-const signUpLocation = new mongoose.Schema({
+const signUpOfficials = new mongoose.Schema({
+    firstName:{
+        type:String,
+        required:true
+    },
+    lastName:{
+        type:String,
+        required:true
+    },
     address:{
         type:String,
         required:true
     },
-    capacity:{
+    email:{
         type:String,
         required:true
     },
-    room:{
+    contact:{
         type:String,
         required:true
     },
-    restroom:{
+    age:{
         type:String,
         required:true
-    },
-    kitchen:{
-        type:String,
-        required:true
-    },
-    firstaid:{
-        type:String,
-        required: true
-    },
-    description:{
-        type:String,
-        required:true
-    },
-})
+    }
+});
 
-module.exports = mongoose.model('location', signUpLocation)
+module.exports = mongoose.model('officials', signUpOfficials)

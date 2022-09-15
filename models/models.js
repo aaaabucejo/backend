@@ -22,7 +22,7 @@ const signUpTemplate = new mongoose.Schema({
         type:String,
         require:true
     },
-    status:{
+    Status:{
         type:String,
         required:true
     },
@@ -34,6 +34,6 @@ const signUpTemplate = new mongoose.Schema({
         type:String,
         required: true
     }
-})
+});
 
 module.exports = mongoose.model('evacuee', signUpTemplate)
