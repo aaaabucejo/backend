@@ -72,9 +72,9 @@ router.post('/signupofficials', async(request,response)=>{
 
 
 router.post('/signin', async(request,response)=> {
-    signUpTemplateCopy.find({
-        username:request.body.username,
-        passowrd:request.body.password
+    officialsTemplate.find({
+        userName:request.body.userName,
+        passWord:request.body.passWord
     }, async(err,documents) =>{
         if(err){
             response.send('error!!!');
