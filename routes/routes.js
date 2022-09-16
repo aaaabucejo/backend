@@ -50,6 +50,8 @@ router.post('/signuplocation', async(request,response)=>{
 //sign up ng officials data
 router.post('/signupofficials', async(request,response)=>{
     const signUpOff = new officialsTemplate({
+        userName:request.body.userName,
+        passWord:request.body.passWord,
         firstName:request.body.firstName,
         lastName:request.body.lastName,
         address:request.body.address,
