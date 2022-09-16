@@ -22,7 +22,7 @@ const signUpTemplate = new mongoose.Schema({
         type:String,
         require:true
     },
-    Status:{
+    status:{
         type:String,
         required:true
     },

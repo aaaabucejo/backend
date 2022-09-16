@@ -113,6 +113,18 @@ router.post('/getlocation', async(request, response)=>{
     })
 })
 
+router.post('/getofficials', async(request, response)=>{
+
+    signUpOfficials.find({}, async(error, document) => {
+        if(error){
+            response.send("error")
+        }
+        else{
+            response.send(document)
+        }
+    })
+})
+
 //delete data ng resident
 router.post('/deleteresident', async(request, response)=>{
 
