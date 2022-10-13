@@ -5,6 +5,14 @@ const signUpLocation = new mongoose.Schema({
         type:String,
         required:true
     },
+    latitude:{
+        type:String,
+        required:true
+    },
+    longtitude:{
+        type:String,
+        required:true
+    },
     capacity:{
         type:String,
         required:true
