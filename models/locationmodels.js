@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const signUpLocation = new mongoose.Schema({
+    name:{
+        type: String,
+        required: true
+    },
     address:{
         type:String,
         required:true
@@ -12,6 +16,10 @@ const signUpLocation = new mongoose.Schema({
     longtitude:{
         type:String,
         required:true
+    },
+    totalevac:{
+        type:String,
+        require:true
     },
     capacity:{
         type:String,
@@ -29,11 +37,11 @@ const signUpLocation = new mongoose.Schema({
         type:String,
         required:true
     },
-    firstaid:{
+    flood:{
         type:String,
         required: true
     },
-    description:{
+    groundrupture:{
         type:String,
         required:true
     },

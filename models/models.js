@@ -20,11 +20,19 @@ const signUpTemplate = new mongoose.Schema({
     },
     siteT:{
         type:String,
-        require:true
+        required:true
+    },
+    coordinates:{
+        type:String,
+        required:true
     },
     status:{
         type:Number,
         required:true
+    },
+    stat:{
+        type: String,
+        required: true
     },
     username:{
         type:String,

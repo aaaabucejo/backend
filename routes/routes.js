@@ -7,6 +7,7 @@ const { request } = require('express')
 const { updateOne } = require('../models/models')
 // const { Navigate } = require('react-router-dom')
 const jwt = require('jsonwebtoken')
+// const nodemailer = require('nodemailer')
 
 
 // sign up data
@@ -16,7 +17,9 @@ router.post('/signup', (request, response) => {
         lastName: request.body.lastName,
         contactNo: request.body.contactNo,
         siteT: request.body.siteT,
+        coordinates:request.body.coordinates,
         status: request.body.status,
+        stat: request.body.stat,
         username: request.body.username,
         password: request.body.password
     })
@@ -32,15 +35,17 @@ router.post('/signup', (request, response) => {
 //sign up ng location data
 router.post('/signuplocation', async (request, response) => {
     const signUpLoc = new signUpLocation({
+        name: request.body.name,
         address: request.body.address,
         latitude: request.body.latitude,
         longtitude: request.body.longtitude,
+        totalevac: request.body.totalevac,
         capacity: request.body.capacity,
         room: request.body.room,
         restroom: request.body.restroom,
         kitchen: request.body.kitchen,
-        firstaid: request.body.firstaid,
-        description: request.body.description
+        flood: request.body.flood,
+        groundrupture: request.body.groundrupture
     })
     signUpLoc.save()
         .then(data => {
@@ -52,18 +57,43 @@ router.post('/signuplocation', async (request, response) => {
         })
 })
 
+// var transporter = nodemailer.createTransport({
+//     service : `gmail`,
+//     auth:{
+//         user: `aaa@gmail.com`,
+//         pass: password
+//     },
+//     tls:{
+//         rejectUnauthorized : false
+//     }
+// })
+
 //sign up ng officials data
 router.post('/signupofficials', async (request, response) => {
     const signUpOff = new officialsTemplate({
-        userName: request.body.userName,
+        email: request.body.email,
         passWord: request.body.passWord,
         firstName: request.body.firstName,
         lastName: request.body.lastName,
-        address: request.body.address,
-        email: request.body.email,
         contact: request.body.contact,
         age: request.body.age
     })
+    // var mailOptions = {
+    //     from: ' "Verify your email" <aaa@gmail.com> ',
+    //     to: signUpOff.email,
+    //     subject: 'aaa -verify your email',
+    //     html: `<h2> ${signUpOff.name}! thank you for registring on our site <h2>
+    //             <h4> Please Verify your mail to continue...<h4>
+    //             <a href="http://${req.headers.host}/user/verify-email?">Verify your email</a>`
+    // }
+    // transporter.sendMail(mailOptions, function(error, info){
+    //     if(error){
+    //         console.log(error)
+    //     }else{
+    //         console.log('email sent to you')
+    //     }
+    // })
+
     signUpOff.save()
         .then(data => {
             response.json(data)
@@ -84,8 +114,6 @@ router.post('/signin', async (request, response) => {
     }
         , async (err, documents) => {
             if (err) {
-
-                // response.send('Login Succesful')
                 response.send('error')
             }
             else {
@@ -210,12 +238,15 @@ router.post('/updateLocation', (request, response) => {
     signUpLocation.findOneAndUpdate({
         address: request.body.address,
     }, {
+        name: request.body.name,
+        latitude: request.body.latitude,
+        longtitude: request.body.longtitude,
+        totalevac: request.body.capacity,
         capacity: request.body.capacity,
         room: request.body.room,
         restroom: request.body.restroom,
         kitchen: request.body.kitchen,
-        firstaid: request.body.firstaid,
-        description: request.body.description
+        flood: request.body.flood,
     }, function (err) {
 
         if (err) {
