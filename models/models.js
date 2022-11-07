@@ -22,7 +22,11 @@ const signUpTemplate = new mongoose.Schema({
         type:String,
         required:true
     },
-    coordinates:{
+    latitude:{
+        type:String,
+        required:true
+    },
+    longtitude:{
         type:String,
         required:true
     },
