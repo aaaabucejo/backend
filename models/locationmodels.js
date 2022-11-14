@@ -18,8 +18,8 @@ const signUpLocation = new mongoose.Schema({
         required:true
     },
     totalevac:{
-        type:Array,
-        default:[]
+        type:String,
+        required:true
     },
     capacity:{
         type:String,
