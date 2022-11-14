@@ -17,10 +17,11 @@ router.post('/signup', (request, response) => {
         lastName: request.body.lastName,
         contactNo: request.body.contactNo,
         siteT: request.body.siteT,
+        address: request.body.address,
         latitude:request.body.latitude,
         longtitude:request.body.longtitude,
+        age: request.body.age,
         status: request.body.status,
-        stat: request.body.stat,
         username: request.body.username,
         password: request.body.password
     })
@@ -268,6 +269,11 @@ router.post('/updataStatus', (request, response) => {
             response.send('Document Updated Successful')
         }
     })
+})
+
+//save residents to array of object totalEvac
+router.post('/addevac',(request,response)=>{
+    
 })
 
 module.exports = router
