@@ -260,9 +260,9 @@ router.post('/updateLocation', (request, response) => {
     })
 })
 //change status to force
-router.post('/updataStatus', (request, response) => {
+router.post('/updateStatus', (request, response) => {
     signUpTemplateCopy.updateMany({
-        stat:request.body.stat
+        status:request.body.status
     },function(err){
         if(err){
             response.send('Update Docuent Failed')
