@@ -243,7 +243,7 @@ router.post('/updateLocation', (request, response) => {
         address: request.body.address,
         latitude: request.body.latitude,
         longtitude: request.body.longtitude,
-        totalevac: request.body.capacity,
+        totalevac: request.body.totalevac,
         capacity: request.body.capacity,
         room: request.body.room,
         restroom: request.body.restroom,
