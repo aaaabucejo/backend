@@ -238,9 +238,9 @@ router.post('/updateUsers', (request, response) => {
 //update location
 router.post('/updateLocation', (request, response) => {
     signUpLocation.findOneAndUpdate({
-        address: request.body.address,
-    }, {
         name: request.body.name,
+    }, {
+        address: request.body.address,
         latitude: request.body.latitude,
         longtitude: request.body.longtitude,
         totalevac: request.body.capacity,
@@ -249,6 +249,7 @@ router.post('/updateLocation', (request, response) => {
         restroom: request.body.restroom,
         kitchen: request.body.kitchen,
         flood: request.body.flood,
+        groundrupture: request.body.groundrupture,
     }, function (err) {
 
         if (err) {
