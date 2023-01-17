@@ -10,16 +10,16 @@ const signUpLocation = new mongoose.Schema({
         required:true
     },
     latitude:{
-        type:String,
+        type:Number,
         required:true
     },
     longtitude:{
-        type:String,
+        type:Number,
         required:true
     },
     totalevac:{
-        type:String,
-        require:true
+        type:Array,
+        default:[]
     },
     capacity:{
         type:String,

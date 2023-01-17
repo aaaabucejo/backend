@@ -3,11 +3,11 @@ const router = express.Router()
 const signUpTemplateCopy = require('../models/models')
 const signUpLocation = require('../models/locationmodels')
 const officialsTemplate = require('../models/officialmodels')
-const { request } = require('express')
+const { request, response } = require('express')
 const { updateOne } = require('../models/models')
 // const { Navigate } = require('react-router-dom')
 const jwt = require('jsonwebtoken')
-// const nodemailer = require('nodemailer')
+const emails= require('../services/Email')
 
 
 // sign up data
@@ -17,10 +17,11 @@ router.post('/signup', (request, response) => {
         lastName: request.body.lastName,
         contactNo: request.body.contactNo,
         siteT: request.body.siteT,
+        address: request.body.address,
         latitude:request.body.latitude,
         longtitude:request.body.longtitude,
+        age: request.body.age,
         status: request.body.status,
-        stat: request.body.stat,
         username: request.body.username,
         password: request.body.password
     })
@@ -58,18 +59,6 @@ router.post('/signuplocation', async (request, response) => {
         })
 })
 
-// var transporter = nodemailer.createTransport({
-//     service : `gmail`,
-//     auth:{
-//         user: `aaa@gmail.com`,
-//         pass: password
-//     },
-//     tls:{
-//         rejectUnauthorized : false
-//     }
-// })
-
-//sign up ng officials data
 router.post('/signupofficials', async (request, response) => {
     const signUpOff = new officialsTemplate({
         email: request.body.email,
@@ -79,28 +68,18 @@ router.post('/signupofficials', async (request, response) => {
         contact: request.body.contact,
         age: request.body.age
     })
-    // var mailOptions = {
-    //     from: ' "Verify your email" <aaa@gmail.com> ',
-    //     to: signUpOff.email,
-    //     subject: 'aaa -verify your email',
-    //     html: `<h2> ${signUpOff.name}! thank you for registring on our site <h2>
-    //             <h4> Please Verify your mail to continue...<h4>
-    //             <a href="http://${req.headers.host}/user/verify-email?">Verify your email</a>`
-    // }
-    // transporter.sendMail(mailOptions, function(error, info){
-    //     if(error){
-    //         console.log(error)
-    //     }else{
-    //         console.log('email sent to you')
-    //     }
-    // })
-
+    const emailToken = jwt.sign({
+        email: request.body.email
+    },'secret1234',{expiresIn: '1hr'})
+    emails.verifyUserEmail(request.body.firstName,request.body.lastName,request.body.email,emailToken)
     signUpOff.save()
         .then(data => {
             response.json(data)
         })
         .catch(error => {
             response.json(error)
+            
+        
 
         })
 })
@@ -266,6 +245,33 @@ router.post('/updataStatus', (request, response) => {
             response.send('Update Docuent Failed')
         }else{
             response.send('Document Updated Successful')
+        }
+    })
+})
+
+//save residents to array of object totalEvac
+router.post('/addevac',(request,response)=>{
+    
+})
+
+//emailer
+router.post('/verifyEmailToken', async (request, response) =>{
+    signUpOfficial.findOne({
+        email: request.body.email
+    },function(err, result){
+        try{
+            const decode = jwt.verify(request.body.email.token, 'secret1234')
+            console.log(decode)
+            let f = signUpOfficial.updateOne({email: request.body.email},
+                {
+                    $set:{
+                        confirmedEmail:true,
+                    }       
+                }).then(console.log('User Found and Modified Email Token'));
+                return response.json({ status: 'okay'});
+        }catch(err){
+            console.log(err)
+            return response.json({status:'error'})
         }
     })
 })
