@@ -251,9 +251,9 @@ router.post('/updateStatus', (request, response) => {
 })
 
 //save residents to array of object totalEvac
-router.post('/addevac',(request,response)=>{
+// router.post('/addevac',(request,response)=>{
     
-})
+// })
 
 // <<<<<<< HEAD
 // //emailer
