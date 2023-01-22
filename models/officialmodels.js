@@ -6,6 +6,11 @@ const signUpOfficials = new mongoose.Schema({
         type:String,
         required:true
     },
+    confirmedEmail:{
+        type:Boolean,
+        default:false,
+        required:true
+    },
     passWord:{
         type:String,
         required:true
