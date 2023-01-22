@@ -22,6 +22,10 @@ const signUpTemplate = new mongoose.Schema({
         type:String,
         required:true
     },
+    address:{
+        type:String,
+        required:true
+    },
     latitude:{
         type:String,
         required:true
@@ -30,11 +34,11 @@ const signUpTemplate = new mongoose.Schema({
         type:String,
         required:true
     },
-    status:{
+    age:{
         type:Number,
         required:true
     },
-    stat:{
+    status:{
         type: String,
         required: true
     },
