@@ -257,26 +257,26 @@ router.post('/updateStatus', (request, response) => {
 
 
 //emailer
-router.post('/verifyEmailToken', async (request, response) =>{
-    signUpOfficial.findOne({
-        email: request.body.email
-    },function(err, result){
-        try{
-            const decode = jwt.verify(request.body.email.token, 'secret1234')
-            console.log(decode)
-            let f = signUpOfficial.updateOne({email: request.body.email},
-                {
-                    $set:{
-                        confirmedEmail:true,
-                    }       
-                }).then(console.log('User Found and Modified Email Token'));
-                return response.json({ status: 'okay'});
-        }catch(err){
-            console.log(err)
-            return response.json({status:'error'})
-        }
-    })
-})
+// router.post('/verifyEmailToken', async (request, response) =>{
+//     signUpOfficial.findOne({
+//         email: request.body.email
+//     },function(err, result){
+//         try{
+//             const decode = jwt.verify(request.body.email.token, 'secret1234')
+//             console.log(decode)
+//             let f = signUpOfficial.updateOne({email: request.body.email},
+//                 {
+//                     $set:{
+//                         confirmedEmail:true,
+//                     }       
+//                 }).then(console.log('User Found and Modified Email Token'));
+//                 return response.json({ status: 'okay'});
+//         }catch(err){
+//             console.log(err)
+//             return response.json({status:'error'})
+//         }
+//     })
+// })
 
 
 module.exports = router
