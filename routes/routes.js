@@ -251,7 +251,6 @@ router.post('/updateStatus', (request, response) => {
 })
 
 //save residents to array of object totalEvac
-<<<<<<< HEAD
 router.post('/addevac',(request,response)=>{
     
 })
@@ -277,34 +276,34 @@ router.post('/verifyEmailToken', async (request, response) =>{
         }
     })
 })
-=======
+
 // router.post('/addevac',(request,response)=>{
     
 // })
 
 
 //emailer
-// router.post('/verifyEmailToken', async (request, response) =>{
-//     signUpOfficial.findOne({
-//         email: request.body.email
-//     },function(err, result){
-//         try{
-//             const decode = jwt.verify(request.body.email.token, 'secret1234')
-//             console.log(decode)
-//             let f = signUpOfficial.updateOne({email: request.body.email},
-//                 {
-//                     $set:{
-//                         confirmedEmail:true,
-//                     }       
-//                 }).then(console.log('User Found and Modified Email Token'));
-//                 return response.json({ status: 'okay'});
-//         }catch(err){
-//             console.log(err)
-//             return response.json({status:'error'})
-//         }
-//     })
-// })
+router.post('/verifyEmailToken', async (request, response) =>{
+    signUpOfficial.findOne({
+        email: request.body.email
+    },function(err, result){
+        try{
+            const decode = jwt.verify(request.body.email.token, 'secret1234')
+            console.log(decode)
+            let f = signUpOfficial.updateOne({email: request.body.email},
+                {
+                    $set:{
+                        confirmedEmail:true,
+                    }       
+                }).then(console.log('User Found and Modified Email Token'));
+                return response.json({ status: 'okay'});
+        }catch(err){
+            console.log(err)
+            return response.json({status:'error'})
+        }
+    })
+})
 
->>>>>>> 45b2a2c4d99c377abd4cef51f4b31478d5e80b9e
+
 
 module.exports = router
