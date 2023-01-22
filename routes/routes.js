@@ -7,7 +7,9 @@ const { request, response } = require('express')
 const { updateOne } = require('../models/models')
 // const { Navigate } = require('react-router-dom')
 const jwt = require('jsonwebtoken')
+
 // const emails= require('../services/Email')
+
 
 
 // sign up data
@@ -216,17 +218,18 @@ router.post('/updateUsers', (request, response) => {
 //update location
 router.post('/updateLocation', (request, response) => {
     signUpLocation.findOneAndUpdate({
-        address: request.body.address,
-    }, {
         name: request.body.name,
+    }, {
+        address: request.body.address,
         latitude: request.body.latitude,
         longtitude: request.body.longtitude,
-        totalevac: request.body.capacity,
+        totalevac: request.body.totalevac,
         capacity: request.body.capacity,
         room: request.body.room,
         restroom: request.body.restroom,
         kitchen: request.body.kitchen,
         flood: request.body.flood,
+        groundrupture: request.body.groundrupture,
     }, function (err) {
 
         if (err) {
@@ -237,9 +240,9 @@ router.post('/updateLocation', (request, response) => {
     })
 })
 //change status to force
-router.post('/updataStatus', (request, response) => {
+router.post('/updateStatus', (request, response) => {
     signUpTemplateCopy.updateMany({
-        stat:request.body.stat
+        status:request.body.status
     },function(err){
         if(err){
             response.send('Update Docuent Failed')
@@ -255,6 +258,7 @@ router.post('/addevac',(request,response)=>{
 })
 
 //emailer
+
 // router.post('/verifyEmailToken', async (request, response) =>{
 //     signUpOfficial.findOne({
 //         email: request.body.email
@@ -275,5 +279,11 @@ router.post('/addevac',(request,response)=>{
 //         }
 //     })
 // })
+
+
+// router.post('/addevac',(request,response)=>{
+    
+// })
+
 
 module.exports = router
