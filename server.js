@@ -19,4 +19,4 @@ app.get("/",(req,res) => {
 app.use(express.json())
 app.use(cors())
 app.use('/app', routerUrls)
-app.listen(port, () => console.log("server is up and running"))
+app.listen(port, () => console.log(`server is up and running ${port}`))
