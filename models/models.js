@@ -18,7 +18,7 @@ const signUpTemplate = new mongoose.Schema({
         type:Date,
         default:Date.now
     },
-    siteT:{
+    name:{
         type:String,
         required:true
     },

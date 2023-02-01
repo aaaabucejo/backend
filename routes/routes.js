@@ -252,10 +252,19 @@ router.post('/updateStatus', (request, response) => {
     })
 })
 
-//save residents to array of object totalEvac
-router.post('/addevac',(request,response)=>{
-    
-})
+
+// router.post('/getAddress',(request,response)=>{
+//     signUpTemplateCopy.count({
+//         address: request.body.address
+//     }, async (error, document) => {
+//         if (error) {
+//             response.send("error")
+//         }
+//         else {
+//             response.send(document)
+//         }
+//     })
+// })
 
 //emailer
 
