@@ -18,7 +18,7 @@ router.post('/signup', (request, response) => {
         firstName: request.body.firstName,
         lastName: request.body.lastName,
         contactNo: request.body.contactNo,
-        siteT: request.body.siteT,
+        name: request.body.name,
         address: request.body.address,
         latitude:request.body.latitude,
         longtitude:request.body.longtitude,
@@ -204,7 +204,7 @@ router.post('/updateUsers', (request, response) => {
     }, {
         lastName: request.body.lastName,
         contactNo: request.body.contactNo,
-        siteT: request.body.siteT,
+        name: request.body.name,
         age: request.body.age
     }, function (err) {
 
