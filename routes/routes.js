@@ -253,18 +253,35 @@ router.post('/updateStatus', (request, response) => {
 })
 
 
+router.post('/updateLocationTotal', (request, response) => {
+    signUpLocation.findOneAndUpdate({
+        name:request.body.name
+    }, {
+        totalevac:request.body.totalevac
+    }, function (err) {
+
+        if (err) {
+            response.send('Updating Document failed');
+        } else {
+            response.send('Document Updated Successfully');
+        }
+    })
+})
+
 // router.post('/getAddress',(request,response)=>{
 //     signUpTemplateCopy.count({
-//         address: request.body.address
-//     }, async (error, document) => {
+//        name: request.body.name
+//     }, function (error, result) {
 //         if (error) {
 //             response.send("error")
 //         }
 //         else {
-//             response.send(document)
+//             response.json(result)
 //         }
 //     })
 // })
+
+
 
 //emailer
 
