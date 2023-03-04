@@ -49,7 +49,13 @@ const signUpTemplate = new mongoose.Schema({
     password:{
         type:String,
         required: true
-    }
+    },
+    roomName:{
+        type:String
+    },
+    inoutStatus:{
+        type:String
+    },
 });
 
 module.exports = mongoose.model('evacuee', signUpTemplate)

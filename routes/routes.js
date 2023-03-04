@@ -3,6 +3,7 @@ const router = express.Router()
 const signUpTemplateCopy = require('../models/models')
 const signUpLocation = require('../models/locationmodels')
 const officialsTemplate = require('../models/officialmodels')
+const signUpRoom = require('../models/roommodels')
 const { request, response } = require('express')
 const { updateOne } = require('../models/models')
 // const { Navigate } = require('react-router-dom')
@@ -25,7 +26,9 @@ router.post('/signup', (request, response) => {
         age: request.body.age,
         status: request.body.status,
         username: request.body.username,
-        password: request.body.password
+        password: request.body.password,
+        roomName: request.body.roomName,
+        inoutStatus:request.body.inoutStatus
     })
     signUpUser.save()
         .then(data => {
@@ -60,7 +63,7 @@ router.post('/signuplocation', async (request, response) => {
 
         })
 })
-
+//signup officials
 router.post('/signupofficials', async (request, response) => {
     const signUpOff = new officialsTemplate({
         email: request.body.email,
@@ -83,6 +86,23 @@ router.post('/signupofficials', async (request, response) => {
             
         
 
+        })
+})
+
+//signup room
+router.post('/signupRoom', (request, response) => {
+    const signUpR = new signUpRoom({
+        roomName:request.body.roomName,
+        name:request.body.name,
+        totalcap:request.body.totalcap,
+        capacity:request.body.capacity
+    })
+    signUpR.save()
+        .then(data => {
+            response.json(data)
+        })
+        .catch(error => {
+            response.json(error)
         })
 })
 
@@ -137,10 +157,23 @@ router.post('/getlocation', async (request, response) => {
         }
     })
 })
-
+//get data output to table(officials)
 router.post('/getofficials', async (request, response) => {
 
     officialsTemplate.find({}, async (error, document) => {
+        if (error) {
+            response.send("error")
+        }
+        else {
+            response.send(document)
+        }
+    })
+})
+
+//get data output to table(rooms)
+router.post('/getRooms', async (request, response) => {
+
+    signUpRoom.find({}, async (error, document) => {
         if (error) {
             response.send("error")
         }
@@ -268,20 +301,21 @@ router.post('/updateLocationTotal', (request, response) => {
     })
 })
 
-// router.post('/getAddress',(request,response)=>{
-//     signUpTemplateCopy.count({
-//        name: request.body.name
-//     }, function (error, result) {
-//         if (error) {
-//             response.send("error")
-//         }
-//         else {
-//             response.json(result)
-//         }
-//     })
-// })
+router.post('/updateRoomTotal', (request, response) => {
+    signUpRoom.findOneAndUpdate({
+        name:request.body.name,
+        roomName:request.body.roomName
+    }, {
+        totalcap:request.body.totalcap
+    }, function (err) {
 
-
+        if (err) {
+            response.send('Updating Document failed');
+        } else {
+            response.send('Document Updated Successfully');
+        }
+    })
+})
 
 //emailer
 
