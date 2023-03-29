@@ -73,10 +73,10 @@ router.post('/signupofficials', async (request, response) => {
         contact: request.body.contact,
         age: request.body.age
     })
-    const emailToken = jwt.sign({
-        email: request.body.email
-    },'secret1234',{expiresIn: '1hr'})
-    emails.verifyUserEmail(request.body.firstName,request.body.lastName,request.body.email,emailToken)
+    // const emailToken = jwt.sign({
+    //     email: request.body.email
+    // },'secret1234',{expiresIn: '1hr'})
+    // emails.verifyUserEmail(request.body.firstName,request.body.lastName,request.body.email,emailToken)
     signUpOff.save()
         .then(data => {
             response.json(data)
