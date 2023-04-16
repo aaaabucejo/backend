@@ -4,6 +4,7 @@ const signUpTemplateCopy = require('../models/models')
 const signUpLocation = require('../models/locationmodels')
 const officialsTemplate = require('../models/officialmodels')
 const signUpRoom = require('../models/roommodels')
+const signUpHotline = require('../models/hotlinemodels')
 const { request, response } = require('express')
 const { updateOne } = require('../models/models')
 // const { Navigate } = require('react-router-dom')
@@ -73,10 +74,10 @@ router.post('/signupofficials', async (request, response) => {
         contact: request.body.contact,
         age: request.body.age
     })
-    // const emailToken = jwt.sign({
-    //     email: request.body.email
-    // },'secret1234',{expiresIn: '1hr'})
-    // emails.verifyUserEmail(request.body.firstName,request.body.lastName,request.body.email,emailToken)
+    const emailToken = jwt.sign({
+        email: request.body.email
+    },'secret1234',{expiresIn: '1hr'})
+    emails.verifyUserEmail(request.body.firstName,request.body.lastName,request.body.email,emailToken)
     signUpOff.save()
         .then(data => {
             response.json(data)
@@ -106,6 +107,21 @@ router.post('/signupRoom', (request, response) => {
         })
 })
 
+router.post('/signuphotline', async (request, response) => {
+    const signUpHot = new signUpHotline({
+        agency:request.body.agency,
+        directline:request.body.directline,
+        area:request.body.area
+    })
+    signUpHot.save()
+        .then(data => {
+            response.json(data)
+        })
+        .catch(error => {
+            response.json(error)
+
+        })
+})
 
 var token;
 
@@ -161,6 +177,18 @@ router.post('/getlocation', async (request, response) => {
 router.post('/getofficials', async (request, response) => {
 
     officialsTemplate.find({}, async (error, document) => {
+        if (error) {
+            response.send("error")
+        }
+        else {
+            response.send(document)
+        }
+    })
+})
+
+router.post('/gethotline', async (request, response) => {
+
+    signUpHotline.find({}, async (error, document) => {
         if (error) {
             response.send("error")
         }
@@ -229,6 +257,23 @@ router.post('/deleteofficials', async (request, response) => {
         }
     })
 })
+
+router.post('/deletehotline', async (request, response) => {
+
+    signUpHotline.findOneAndDelete({
+        directline:request.body.directline,
+    }, async (error, document) => {
+        if (error) {
+            response.send("error", err)
+        }
+        else {
+            response.send(document)
+            console.log('deleted')
+        }
+    })
+})
+
+
 //update users
 router.post('/updateUsers', (request, response) => {
     signUpTemplateCopy.findOneAndUpdate({
@@ -263,6 +308,23 @@ router.post('/updateLocation', (request, response) => {
         kitchen: request.body.kitchen,
         flood: request.body.flood,
         groundrupture: request.body.groundrupture,
+    }, function (err) {
+
+        if (err) {
+            response.send('Updating Document failed');
+        } else {
+            response.send('Document Updated Successfully');
+        }
+    })
+})
+
+router.post('/updatehotline', (request, response) => {
+    signUpHotline.findOneAndUpdate({
+        directline: request.body.directline,
+
+    }, {
+        agency:request.body.agency,
+        area:request.body.area
     }, function (err) {
 
         if (err) {
