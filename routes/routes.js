@@ -74,10 +74,10 @@ router.post('/signupofficials', async (request, response) => {
         contact: request.body.contact,
         age: request.body.age
     })
-    const emailToken = jwt.sign({
-        email: request.body.email
-    },'secret1234',{expiresIn: '1hr'})
-    emails.verifyUserEmail(request.body.firstName,request.body.lastName,request.body.email,emailToken)
+    // const emailToken = jwt.sign({
+    //     email: request.body.email
+    // },'secret1234',{expiresIn: '1hr'})
+    // emails.verifyUserEmail(request.body.firstName,request.body.lastName,request.body.email,emailToken)
     signUpOff.save()
         .then(data => {
             response.json(data)
@@ -211,6 +211,23 @@ router.post('/getRooms', async (request, response) => {
     })
 })
 
+//delete room
+router.post('/deleteroom', async (request, response) => {
+
+    signUpRoom.findOneAndDelete({
+       roomName:request.body.roomName
+        
+    }, async (error, document) => {
+        if (error) {
+            response.send("error", err)
+        }
+        else {
+            response.send(document)
+            console.log('deleted')
+        }
+    })
+})
+
 //delete data ng resident
 router.post('/deleteresident', async (request, response) => {
 
@@ -296,14 +313,10 @@ router.post('/updateUsers', (request, response) => {
 //update location
 router.post('/updateLocation', (request, response) => {
     signUpLocation.findOneAndUpdate({
-        name: request.body.name,
+        id: request.body.id,
     }, {
+        name: request.body.name,
         address: request.body.address,
-        latitude: request.body.latitude,
-        longtitude: request.body.longtitude,
-        totalevac: request.body.totalevac,
-        capacity: request.body.capacity,
-        room: request.body.room,
         restroom: request.body.restroom,
         kitchen: request.body.kitchen,
         flood: request.body.flood,
@@ -325,6 +338,25 @@ router.post('/updatehotline', (request, response) => {
     }, {
         agency:request.body.agency,
         area:request.body.area
+    }, function (err) {
+
+        if (err) {
+            response.send('Updating Document failed');
+        } else {
+            response.send('Document Updated Successfully');
+        }
+    })
+})
+
+router.post('/updateofficials', (request, response) => {
+    officialsTemplate.findOneAndUpdate({
+        email:request.body.email,
+
+    }, {
+        firstName:request.body.firstName,
+        lastName:request.body.lastName,
+        contact:request.body.contact,
+       
     }, function (err) {
 
         if (err) {
