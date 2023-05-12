@@ -22,11 +22,11 @@ const signUpLocation = new mongoose.Schema({
     },
     capacity:{
         type:String,
-        required:true
+       
     },
     room:{
         type:String,
-        required:true
+        
     },
     restroom:{
         type:String,

@@ -215,7 +215,8 @@ router.post('/getRooms', async (request, response) => {
 router.post('/deleteroom', async (request, response) => {
 
     signUpRoom.findOneAndDelete({
-       roomName:request.body.roomName
+        name:request.body.name,
+        roomName:request.body.roomName
         
     }, async (error, document) => {
         if (error) {
@@ -411,6 +412,35 @@ router.post('/updateRoomTotal', (request, response) => {
     })
 })
 
+router.post('/updateLocationCapacity', (request, response) => {
+    signUpLocation.findOneAndUpdate({
+        name:request.body.name
+    }, {
+        capacity:request.body.capacity
+    }, function (err) {
+
+        if (err) {
+            response.send('Updating Document failed');
+        } else {
+            response.send('Document Updated Successfully');
+        }
+    })
+})
+
+router.post('/updateRoomCount', (request, response) => {
+    signUpLocation.findOneAndUpdate({
+        name:request.body.name
+    }, {
+        room:request.body.room
+    }, function (err) {
+
+        if (err) {
+            response.send('Updating Document failed');
+        } else {
+            response.send('Document Updated Successfully');
+        }
+    })
+})
 //emailer
 
 // router.post('/verifyEmailToken', async (request, response) =>{
