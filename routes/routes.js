@@ -334,9 +334,11 @@ router.post('/updateLocation', (request, response) => {
 
 router.post('/updatehotline', (request, response) => {
     signUpHotline.findOneAndUpdate({
-        directline: request.body.directline,
+        _id: request.body._id,
+        
 
     }, {
+        directline: request.body.directline,
         agency:request.body.agency,
         area:request.body.area
     }, function (err) {
@@ -351,12 +353,13 @@ router.post('/updatehotline', (request, response) => {
 
 router.post('/updateofficials', (request, response) => {
     officialsTemplate.findOneAndUpdate({
-        email:request.body.email,
+        _id:request.body._id,
 
     }, {
         firstName:request.body.firstName,
         lastName:request.body.lastName,
         contact:request.body.contact,
+        email:request.body.email
        
     }, function (err) {
 
