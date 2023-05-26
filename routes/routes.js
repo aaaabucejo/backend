@@ -215,8 +215,7 @@ router.post('/getRooms', async (request, response) => {
 router.post('/deleteroom', async (request, response) => {
 
     signUpRoom.findOneAndDelete({
-        name:request.body.name,
-        roomName:request.body.roomName
+        id:request.body.id
         
     }, async (error, document) => {
         if (error) {
@@ -233,8 +232,7 @@ router.post('/deleteroom', async (request, response) => {
 router.post('/deleteresident', async (request, response) => {
 
     signUpTemplateCopy.findOneAndDelete({
-        firstName: request.body.firstName,
-        lastName: request.body.lastName,
+       id:request.body.id
     }, async (error, document) => {
         if (error) {
             response.send("error", err)
@@ -249,7 +247,7 @@ router.post('/deleteresident', async (request, response) => {
 router.post('/deletelocation', async (request, response) => {
 
     signUpLocation.findOneAndDelete({
-        address: request.body.address,
+        id:request.body.id,
     }, async (error, document) => {
         if (error) {
             response.send("error", err)
@@ -264,7 +262,8 @@ router.post('/deletelocation', async (request, response) => {
 router.post('/deleteofficials', async (request, response) => {
 
     officialsTemplate.findOneAndDelete({
-        email: request.body.email,
+        id:request.body.id,
+        email:request.body.email
     }, async (error, document) => {
         if (error) {
             response.send("error", err)
@@ -279,6 +278,7 @@ router.post('/deleteofficials', async (request, response) => {
 router.post('/deletehotline', async (request, response) => {
 
     signUpHotline.findOneAndDelete({
+        id:request.body.id,
         directline:request.body.directline,
     }, async (error, document) => {
         if (error) {
@@ -315,8 +315,9 @@ router.post('/updateUsers', (request, response) => {
 router.post('/updateLocation', (request, response) => {
     signUpLocation.findOneAndUpdate({
         id: request.body.id,
-    }, {
         name: request.body.name,
+    }, {
+        
         address: request.body.address,
         restroom: request.body.restroom,
         kitchen: request.body.kitchen,
