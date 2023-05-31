@@ -232,7 +232,9 @@ router.post('/deleteroom', async (request, response) => {
 router.post('/deleteresident', async (request, response) => {
 
     signUpTemplateCopy.findOneAndDelete({
-       id:request.body.id
+       _id:request.body._id,
+       firstName:request.body.firstName,
+       lastName:request.body.lastName
     }, async (error, document) => {
         if (error) {
             response.send("error", err)
@@ -248,6 +250,8 @@ router.post('/deletelocation', async (request, response) => {
 
     signUpLocation.findOneAndDelete({
         id:request.body.id,
+        name:request.body.name,
+        address:request.body.address
     }, async (error, document) => {
         if (error) {
             response.send("error", err)
