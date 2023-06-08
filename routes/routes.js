@@ -215,7 +215,8 @@ router.post('/getRooms', async (request, response) => {
 router.post('/deleteroom', async (request, response) => {
 
     signUpRoom.findOneAndDelete({
-        id:request.body.id
+        id:request.body.id,
+        roomName:request.body.roomName
         
     }, async (error, document) => {
         if (error) {
@@ -299,13 +300,11 @@ router.post('/deletehotline', async (request, response) => {
 //update users
 router.post('/updateUsers', (request, response) => {
     signUpTemplateCopy.findOneAndUpdate({
+        id:request.body.id,
         firstName: request.body.firstName,
 
     }, {
-        lastName: request.body.lastName,
-        contactNo: request.body.contactNo,
-        name: request.body.name,
-        age: request.body.age
+        roomName:request.body.roomName
     }, function (err) {
 
         if (err) {
@@ -315,6 +314,25 @@ router.post('/updateUsers', (request, response) => {
         }
     })
 })
+
+router.post('/addUsersToRoom', (request, response) => {
+    signUpTemplateCopy.findOneAndUpdate({
+        username:request.body.username
+    }, {
+        roomName:request.body.roomName
+    }, function (err) {
+
+        if (err) {
+            response.send('Updating Document failed');
+        } else {
+            response.send('Document Updated Successfully');
+        }
+    })
+})
+
+
+
+
 //update location
 router.post('/updateLocation', (request, response) => {
     signUpLocation.findOneAndUpdate({
@@ -449,6 +467,26 @@ router.post('/updateRoomCount', (request, response) => {
         }
     })
 })
+
+//auto room assigned
+router.post('/addToRoom', (request, response) => {
+    signUpTemplateCopy.findOneAndUpdate({
+        id:request.body.id,
+        username:request.body.username
+    }, {
+        roomName:request.body.roomName
+    }, function (err) {
+
+        if (err) {
+            response.send('Updating Document failed');
+        } else {
+            response.send('Document Updated Successfully');
+        }
+    })
+})
+
+
+
 //emailer
 
 // router.post('/verifyEmailToken', async (request, response) =>{

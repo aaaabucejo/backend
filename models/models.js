@@ -20,7 +20,7 @@ const signUpTemplate = new mongoose.Schema({
     },
     name:{
         type:String,
-        required:true
+        // required:true
     },
     address:{
         type:String,
