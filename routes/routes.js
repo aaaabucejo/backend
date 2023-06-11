@@ -297,7 +297,7 @@ router.post('/deletehotline', async (request, response) => {
 })
 
 
-//update users
+//removeuser users
 router.post('/updateUsers', (request, response) => {
     signUpTemplateCopy.findOneAndUpdate({
         id:request.body.id,
@@ -305,6 +305,27 @@ router.post('/updateUsers', (request, response) => {
 
     }, {
         roomName:request.body.roomName
+       
+    }, function (err) {
+
+        if (err) {
+            response.send('Updating Document failed');
+        } else {
+            response.send('Document Updated Successfully');
+        }
+    })
+})
+router.post('/editUsers', (request, response) => {
+    signUpTemplateCopy.findOneAndUpdate({
+        id:request.body.id,
+        // firstName: request.body.firstName,
+        // lastName:request.body.lastName
+
+    }, {
+        firstName: request.body.firstName,
+        lastName:request.body.lastName,
+        inoutStatus:request.body.inoutStatus
+       
     }, function (err) {
 
         if (err) {
