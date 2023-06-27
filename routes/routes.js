@@ -109,6 +109,7 @@ router.post('/signupRoom', (request, response) => {
 
 router.post('/signuphotline', async (request, response) => {
     const signUpHot = new signUpHotline({
+        image:request.body.image,
         agency:request.body.agency,
         directline:request.body.directline,
         area:request.body.area
@@ -139,11 +140,12 @@ router.post('/signin', async (request, response) => {
                     return response.json({ status: 'incorrect username or password', officialsTemplate: false })
 
                 } else {
+                    const document = documents[0];
                  token = jwt.sign({
                         officialsTemplate: request.body.firstName,
                         officialsTemplate: request.body.email
                     }, 'secret')
-                    return response.json({ status: 'Login Successful', officialsTemplate: true, token: token })
+                    return response.json({ status: 'Login Successful', officialsTemplate: true, token: token, document: document})
                     
                 }
             }
@@ -316,25 +318,34 @@ router.post('/updateUsers', (request, response) => {
     })
 })
 router.post('/editUsers', (request, response) => {
-    signUpTemplateCopy.findOneAndUpdate({
-        id:request.body.id,
-        // firstName: request.body.firstName,
-        // lastName:request.body.lastName
-
-    }, {
+    signUpTemplateCopy.findOneAndUpdate(
+      {
+        id: request.body.id,
+      },
+      {
         firstName: request.body.firstName,
-        lastName:request.body.lastName,
-        inoutStatus:request.body.inoutStatus
-       
-    }, function (err) {
-
+        lastName: request.body.lastName,
+        contactNo: request.body.contactNo,
+        name: request.body.name,
+        address: request.body.address,
+        latitude: request.body.latitude,
+        longitude: request.body.longitude,
+        status: request.body.status,
+        username: request.body.username,
+        passWord: request.body.passWord,
+        age: request.body.age,
+        inoutStatus: request.body.inoutStatus,
+      },
+      { new: true },
+      async (err, document) => {
         if (err) {
-            response.send('Updating Document failed');
+          response.send('Updating Document failed');
         } else {
-            response.send('Document Updated Successfully');
+          response.send({ message: 'Document Updated Successfully', document });
         }
-    })
-})
+      }
+    );
+  });
 
 router.post('/addUsersToRoom', (request, response) => {
     signUpTemplateCopy.findOneAndUpdate({
@@ -358,9 +369,9 @@ router.post('/addUsersToRoom', (request, response) => {
 router.post('/updateLocation', (request, response) => {
     signUpLocation.findOneAndUpdate({
         id: request.body.id,
-        name: request.body.name,
-    }, {
         
+    }, {
+        name: request.body.name,
         address: request.body.address,
         restroom: request.body.restroom,
         kitchen: request.body.kitchen,

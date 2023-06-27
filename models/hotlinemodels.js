@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const signUpHotline = new mongoose.Schema({
+    image:{
+        type:String,
+        required:true
+    },
     agency:{
         type:String,
         required:true
