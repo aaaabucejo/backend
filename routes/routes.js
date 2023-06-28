@@ -152,6 +152,32 @@ router.get('/signin', async (request, response) => {
         })
 })
 
+router.get('/signinUsers', async (request, response) => {
+    signUpTemplateCopy.find({
+        username: request.query.username,
+        passWord: request.query.passWord
+    }
+        , async (err, documents) => {
+            if (err) {
+                response.send('error')
+            }
+            else {
+                if (documents == 0) {
+                    return response.json({ status: 'incorrect username or password', officialsTemplate: false })
+
+                } else {
+                    const document = documents[0];
+                 token = jwt.sign({
+                     signUpTemplateCopy: request.body.firstName,
+                     signUpTemplateCopy: request.body.email
+                    }, 'secret')
+                    return response.json({ status: 'Login Successful',  signUpTemplateCopy: true, token: token, document: document})
+                    
+                }
+            }
+        })
+})
+
 
 //get data output to table(resident)
 router.get('/getUsers', async (request, response) => {
