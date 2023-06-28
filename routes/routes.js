@@ -365,6 +365,7 @@ router.get('/editUsers', (request, response) => {
         passWord: request.query.passWord,
         age: request.query.age,
         inoutStatus: request.query.inoutStatus,
+        roomName: request.query.roomName
       },
       { new: true },
       async (err, document) => {
