@@ -15,21 +15,21 @@ const jwt = require('jsonwebtoken')
 
 
 // sign up data
-router.post('/signup', (request, response) => {
+router.get('/signup', (request, response) => {
     const signUpUser = new signUpTemplateCopy({
-        firstName: request.body.firstName,
-        lastName: request.body.lastName,
-        contactNo: request.body.contactNo,
-        name: request.body.name,
-        address: request.body.address,
-        latitude:request.body.latitude,
-        longtitude:request.body.longtitude,
-        age: request.body.age,
-        status: request.body.status,
-        username: request.body.username,
-        password: request.body.password,
-        roomName: request.body.roomName,
-        inoutStatus:request.body.inoutStatus
+        firstName: request.query.firstName,
+        lastName: request.query.lastName,
+        contactNo: request.query.contactNo,
+        name: request.query.name,
+        address: request.query.address,
+        latitude:request.query.latitude,
+        longtitude:request.query.longtitude,
+        age: request.query.age,
+        status: request.query.status,
+        username: request.query.username,
+        password: request.query.password,
+        roomName: request.query.roomName,
+        inoutStatus:request.query.inoutStatus
     })
     signUpUser.save()
         .then(data => {
@@ -41,19 +41,19 @@ router.post('/signup', (request, response) => {
 })
 
 //sign up ng location data
-router.post('/signuplocation', async (request, response) => {
+router.get('/signuplocation', async (request, response) => {
     const signUpLoc = new signUpLocation({
-        name: request.body.name,
-        address: request.body.address,
-        latitude: request.body.latitude,
-        longtitude: request.body.longtitude,
-        totalevac: request.body.totalevac,
-        capacity: request.body.capacity,
-        room: request.body.room,
-        restroom: request.body.restroom,
-        kitchen: request.body.kitchen,
-        flood: request.body.flood,
-        groundrupture: request.body.groundrupture
+        name: request.query.name,
+        address: request.query.address,
+        latitude: request.query.latitude,
+        longtitude: request.query.longtitude,
+        totalevac: request.query.totalevac,
+        capacity: request.query.capacity,
+        room: request.query.room,
+        restroom: request.query.restroom,
+        kitchen: request.query.kitchen,
+        flood: request.query.flood,
+        groundrupture: request.query.groundrupture
     })
     signUpLoc.save()
         .then(data => {
@@ -126,10 +126,10 @@ router.post('/signuphotline', async (request, response) => {
 
 var token;
 
-router.post('/signin', async (request, response) => {
+router.get('/signin', async (request, response) => {
     officialsTemplate.find({
-        email: request.body.email,
-        passWord: request.body.passWord
+        email: request.query.email,
+        passWord: request.query.passWord
     }
         , async (err, documents) => {
             if (err) {
@@ -151,8 +151,10 @@ router.post('/signin', async (request, response) => {
             }
         })
 })
+
+
 //get data output to table(resident)
-router.post('/getUsers', async (request, response) => {
+router.get('/getUsers', async (request, response) => {
 
     signUpTemplateCopy.find({}, async (error, document) => {
         if (error) {
@@ -164,7 +166,7 @@ router.post('/getUsers', async (request, response) => {
     })
 })
 //get data output to table(sites)
-router.post('/getlocation', async (request, response) => {
+router.get('/getlocation', async (request, response) => {
 
     signUpLocation.find({}, async (error, document) => {
         if (error) {
@@ -188,7 +190,7 @@ router.post('/getofficials', async (request, response) => {
     })
 })
 
-router.post('/gethotline', async (request, response) => {
+router.get('/gethotline', async (request, response) => {
 
     signUpHotline.find({}, async (error, document) => {
         if (error) {
@@ -201,7 +203,7 @@ router.post('/gethotline', async (request, response) => {
 })
 
 //get data output to table(rooms)
-router.post('/getRooms', async (request, response) => {
+router.get('/getRooms', async (request, response) => {
 
     signUpRoom.find({}, async (error, document) => {
         if (error) {
@@ -300,41 +302,43 @@ router.post('/deletehotline', async (request, response) => {
 
 
 //removeuser users
-router.post('/updateUsers', (request, response) => {
-    signUpTemplateCopy.findOneAndUpdate({
-        id:request.body.id,
-        firstName: request.body.firstName,
+router.get('/updateUsers', (request, response) => {
+  signUpTemplateCopy.findOneAndUpdate(
+    {
+      _id: request.query._id,
+      firstName: request.query.firstName
+    },
+    {
+      roomName: request.query.roomName
+    },
+    function (err) {
+      if (err) {
+        response.send('Updating Document failed');
+      } else {
+        response.send('Document Updated Successfully');
+      }
+    }
+  );
+});
 
-    }, {
-        roomName:request.body.roomName
-       
-    }, function (err) {
-
-        if (err) {
-            response.send('Updating Document failed');
-        } else {
-            response.send('Document Updated Successfully');
-        }
-    })
-})
-router.post('/editUsers', (request, response) => {
+router.get('/editUsers', (request, response) => {
     signUpTemplateCopy.findOneAndUpdate(
       {
-        id: request.body.id,
+        id: request.query.id,
       },
       {
-        firstName: request.body.firstName,
-        lastName: request.body.lastName,
-        contactNo: request.body.contactNo,
-        name: request.body.name,
-        address: request.body.address,
-        latitude: request.body.latitude,
-        longitude: request.body.longitude,
-        status: request.body.status,
-        username: request.body.username,
-        passWord: request.body.passWord,
-        age: request.body.age,
-        inoutStatus: request.body.inoutStatus,
+        firstName: request.query.firstName,
+        lastName: request.query.lastName,
+        contactNo: request.query.contactNo,
+        name: request.query.name,
+        address: request.query.address,
+        latitude: request.query.latitude,
+        longitude: request.query.longitude,
+        status: request.query.status,
+        username: request.query.username,
+        passWord: request.query.passWord,
+        age: request.query.age,
+        inoutStatus: request.query.inoutStatus,
       },
       { new: true },
       async (err, document) => {
