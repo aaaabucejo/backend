@@ -28,11 +28,11 @@ const signUpTemplate = new mongoose.Schema({
     },
     latitude:{
         type:String,
-        required:true
+        
     },
     longtitude:{
         type:String,
-        required:true
+       
     },
     age:{
         type:Number,
