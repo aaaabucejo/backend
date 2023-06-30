@@ -469,6 +469,29 @@ router.post('/updateStatus', (request, response) => {
     })
 })
 
+router.post('/removeAllRes', (request, response) => {
+    signUpTemplateCopy.updateMany(
+        // Filter to match documents
+        {
+             name: request.body.name
+        },
+        // Update operation
+        {
+            $set: {
+                roomName: "",
+                name: ""
+            }
+        },
+        function(err) {
+            if (err) {
+                response.send('Update Document Failed');
+            } else {
+                response.send('Documents Updated Successfully');
+            }
+        }
+    );
+});
+
 
 router.post('/updateLocationTotal', (request, response) => {
     signUpLocation.findOneAndUpdate({
@@ -537,7 +560,8 @@ router.post('/addToRoom', (request, response) => {
         id:request.body.id,
         username:request.body.username
     }, {
-        roomName:request.body.roomName
+        roomName:request.body.roomName,
+        inoutStatus:request.body.inoutStatus
     }, function (err) {
 
         if (err) {
