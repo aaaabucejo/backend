@@ -359,7 +359,7 @@ router.get('/editUsers', (request, response) => {
         name: request.query.name,
         address: request.query.address,
         latitude: request.query.latitude,
-        longitude: request.query.longitude,
+        longtitude: request.query.longtitude,
         status: request.query.status,
         username: request.query.username,
         passWord: request.query.passWord,
