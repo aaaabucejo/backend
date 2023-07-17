@@ -18,6 +18,9 @@ const signUpTemplate = new mongoose.Schema({
         type:Date,
         default:Date.now
     },
+    barangayName:{
+        type: String
+    },
     name:{
         type:String,
         // required:true

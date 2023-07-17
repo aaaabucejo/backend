@@ -5,6 +5,10 @@ const signUpLocation = new mongoose.Schema({
         type: String,
         required: true
     },
+    barangayName:{
+        type:String,
+        // required:true
+    },
     address:{
         type:String,
         required:true

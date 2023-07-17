@@ -5,6 +5,7 @@ const signUpLocation = require('../models/locationmodels')
 const officialsTemplate = require('../models/officialmodels')
 const signUpRoom = require('../models/roommodels')
 const signUpHotline = require('../models/hotlinemodels')
+const signUpBarangay = require('../models/barangaymodels')
 const { request, response } = require('express')
 const { updateOne } = require('../models/models')
 // const { Navigate } = require('react-router-dom')
@@ -15,35 +16,42 @@ const jwt = require('jsonwebtoken')
 
 
 // sign up data
-router.get('/signup', (request, response) => {
-    const signUpUser = new signUpTemplateCopy({
-        firstName: request.query.firstName,
-        lastName: request.query.lastName,
-        contactNo: request.query.contactNo,
-        name: request.query.name,
-        address: request.query.address,
-        latitude:request.query.latitude,
-        longtitude:request.query.longtitude,
-        age: request.query.age,
-        status: request.query.status,
-        username: request.query.username,
-        password: request.query.password,
-        roomName: request.query.roomName,
-        inoutStatus:request.query.inoutStatus
-    })
-    signUpUser.save()
-        .then(data => {
-            response.json(data)
-        })
-        .catch(error => {
-            response.json(error)
-        })
-})
+router.get('/signup', async (request, response) => {
+    try {
+        const signUpUser = new signUpTemplateCopy({
+            firstName: request.query.firstName,
+            lastName: request.query.lastName,
+            contactNo: request.query.contactNo,
+            barangayName: request.query.barangayName,
+            name: request.query.name,
+            address: request.query.address,
+            latitude: request.query.latitude,
+            longtitude: request.query.longtitude,
+            age: request.query.age,
+            status: request.query.status,
+            username: request.query.username,
+            password: request.query.password,
+            roomName: request.query.roomName,
+            inoutStatus: request.query.inoutStatus
+        });
+
+        const data = await signUpUser.save();
+
+        const barangayDocument = await signUpBarangay.findOne({
+            barangayName: data.barangayName
+        }).exec();
+        response.json({ message: "Sign up successful", data: data, barangayDocument: barangayDocument });
+    } catch (error) {
+        console.error("Error while signing up:", error);
+        response.status(500).json({ error: "Error while signing up" });
+    }
+});
 
 //sign up ng location data
 router.get('/signuplocation', async (request, response) => {
     const signUpLoc = new signUpLocation({
         name: request.query.name,
+        barangayName: request.query.barangayName,
         address: request.query.address,
         latitude: request.query.latitude,
         longtitude: request.query.longtitude,
@@ -124,6 +132,23 @@ router.post('/signuphotline', async (request, response) => {
         })
 })
 
+router.get('/signupBarangay', async (request, response) => {
+    const signUpNewBarangay = new signUpBarangay({
+        barangayName: request.query.barangayName,
+        latitude: request.query.latitude,
+        longitude: request.query.longitude
+    })
+    signUpNewBarangay.save()
+        .then(data => {
+            response.json(data)
+        })
+        .catch(error => {
+            response.json(error)
+
+        })
+})
+
+
 var token;
 
 router.get('/signin', async (request, response) => {
@@ -151,33 +176,36 @@ router.get('/signin', async (request, response) => {
             }
         })
 })
-
 router.get('/signinUsers', async (request, response) => {
     signUpTemplateCopy.find({
         username: request.query.username,
         passWord: request.query.passWord
-    }
-        , async (err, documents) => {
-            if (err) {
-                response.send('error')
-            }
-            else {
-                if (documents == 0) {
-                    return response.json({ status: 'incorrect username or password', officialsTemplate: false })
+    }, async (err, documents) => {
+        if (err) {
+            response.send('error');
+        } else {
+            if (documents.length === 0) {
+                return response.json({ status: 'incorrect username or password', officialsTemplate: false });
+            } else {
+                const document = documents[0];
+                const locationDocuments = await signUpLocation.find({
+                barangayName: document.barangayName 
+            });
+                const token = jwt.sign({
+                    signUpTemplateCopy: document.firstName,
+                    signUpTemplateCopy: document.email
+                }, 'secret');
 
-                } else {
-                    const document = documents[0];
-                 token = jwt.sign({
-                     signUpTemplateCopy: request.body.firstName,
-                     signUpTemplateCopy: request.body.email
-                    }, 'secret')
-                    return response.json({ status: 'Login Successful',  signUpTemplateCopy: true, token: token, document: document})
-                    
-                }
+                return response.json({
+                    status: 'Login Successful',
+                    signUpTemplateCopy: document,
+                    locationDocuments: locationDocuments,
+                    token: token
+                });
             }
-        })
-})
-
+        }
+    });
+});
 
 //get data output to table(resident)
 router.get('/getUsers', async (request, response) => {
@@ -232,6 +260,18 @@ router.get('/gethotline', async (request, response) => {
 router.get('/getRooms', async (request, response) => {
 
     signUpRoom.find({}, async (error, document) => {
+        if (error) {
+            response.send("error")
+        }
+        else {
+            response.send(document)
+        }
+    })
+})
+
+router.get('/getBarangays', async (request, response) => {
+
+    signUpBarangay.find({}, async (error, document) => {
         if (error) {
             response.send("error")
         }
