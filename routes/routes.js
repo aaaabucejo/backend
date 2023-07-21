@@ -612,6 +612,18 @@ router.post('/addToRoom', (request, response) => {
     })
 })
 
+router.get('/getUserHouseHold', async (request, response) => {
+    const selectedUsername = request.query.username;
+
+    // Find all documents except the one with the selected username
+    signUpTemplateCopy.find({ username: { $ne: selectedUsername } }, (error, documents) => {
+        if (error) {
+            response.status(500).send("Error finding documents");
+        } else {
+            response.json(documents);
+        }
+    });
+});
 
 
 //emailer
